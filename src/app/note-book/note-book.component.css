@@ -1,0 +1,96 @@
+.date-time-container {
+  font-family: Arial, sans-serif;
+  margin-top: 25px;
+  font-size: 12px;
+  background-color: #fff9c4;  /* light yellow */
+  padding: 10px 15px;
+  border-radius: 4px;
+  position: relative;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ddd;
+}
+
+/* Left side floats left */
+.left-side {
+  float: left;
+  max-width: 45%;
+}
+
+/* Right side floats right */
+.right-side {
+  float: right;
+  text-align: right;
+  max-width: 45%;
+}
+
+/* Clear floats */
+.date-time-container::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* Button styles */
+button {
+  margin: 5px 8px 0 0;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+/* Centered textbox container */
+.center-textbox {
+  clear: both;
+  margin: 20px auto 0 auto;
+  max-width: 320px;
+  text-align: center;
+}
+
+/* Textarea & Text input style */
+.center-textbox textarea,
+.center-textbox input[type="text"] {
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 15px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 1px solid #c3cfe0;
+  background-color: #e6f0ff;
+  box-shadow: 0 2px 6px rgba(0, 0, 50, 0.1);
+  resize: vertical;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.center-textbox textarea:focus,
+.center-textbox input[type="text"]:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px #4a90e2;
+  outline: none;
+}
+
+/* Buttons inside center textbox */
+.center-textbox button {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: left;
+}

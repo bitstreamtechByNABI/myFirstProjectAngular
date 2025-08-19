@@ -1,0 +1,51 @@
+<!-- Loading Overlay -->
+<div *ngIf="isLoading" class="overlay">
+  <img src="../../assets/03-19-26-213_512.gif" alt="Loading..." />
+  <p>Please wait...</p>
+</div>
+
+<!-- Contact Form Container -->
+<div class="add-contact-container" [class.blur]="isLoading">
+  <h2>📇 Add New Contact</h2>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">🧑 First Name</label>
+      <input id="firstName" type="text" formControlName="firstName" placeholder="Enter first name" required />
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">👨‍🦱 Last Name</label>
+      <input id="lastName" type="text" formControlName="lastName" placeholder="Enter last name" required />
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">📧 Email</label>
+      <input id="email" type="email" formControlName="email" placeholder="Enter email" required />
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phone">📞 Phone</label>
+      <input id="phone" type="tel" formControlName="phoneNumber" placeholder="Enter phone number"
+        maxlength="10" pattern="[0-9]*" required (input)="limitPhoneLength($event)" />
+    </div>
+
+    <!-- Profile Image Upload -->
+    <div class="form-group">
+      <label for="profileImage">🖼️ Upload Image</label>
+      <input type="file" id="profileImage" #fileInput (change)="onImageSelected($event)" accept="image/*" />
+    </div>
+
+    <!-- Image Preview -->
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [src]="imagePreview" alt="Preview" />
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="save-btn">➕ Save Contact</button>
+  </form>
+</div>

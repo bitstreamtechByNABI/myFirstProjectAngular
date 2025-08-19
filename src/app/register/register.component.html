@@ -1,0 +1,106 @@
+<div class="registration-form">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <h2 class="form-header">User Registration</h2>
+
+    <div class="row">
+      <div class="col form-group">
+        <label for="userName">Username</label>
+        <input id="userName" formControlName="userName" type="text" placeholder="Enter your username" />
+      </div>
+
+      <div class="col form-group">
+        <label for="phone">Phone</label>
+        <input id="phone" formControlName="phone" type="text" placeholder="Enter your phone number" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col form-group">
+        <label for="firstName">First Name</label>
+        <input id="firstName" formControlName="firstName" type="text" placeholder="Enter your first name" />
+      </div>
+      <div class="col form-group">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" formControlName="lastName" type="text" placeholder="Enter your last name" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col form-group">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" placeholder="Enter your email address" />
+      </div>
+      <div class="col form-group">
+        <label for="password">Password</label>
+        <input id="password" formControlName="password" type="password" placeholder="Create a strong password" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col form-group">
+        <label for="dob">Date of Birth</label>
+        <input id="dob" formControlName="dob" type="date" />
+      </div>
+      <div class="col form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender">
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <fieldset formGroupName="address" class="address-box">
+      <legend><strong>Address</strong></legend>
+
+      <div class="row">
+        <div class="col form-group">
+          <label for="street">Street</label>
+          <input id="street" formControlName="street" type="text" placeholder="Street address" />
+        </div>
+        <div class="col form-group">
+          <label for="city">City</label>
+          <input id="city" formControlName="city" type="text" placeholder="City" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col form-group">
+          <label for="state">State</label>
+          <input id="state" formControlName="state" type="text" placeholder="State" />
+        </div>
+        <div class="col form-group">
+          <label for="zipCode">Zip Code</label>
+          <input id="zipCode" formControlName="zipCode" type="text" placeholder="ZIP / Postal code" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input id="country" formControlName="country" type="text" placeholder="Country" />
+      </div>
+    </fieldset>
+
+    <!-- Security Questions -->
+    <div formArrayName="securityQuestions">
+      <div *ngFor="let sq of securityQuestions.controls; let i = index" [formGroupName]="i">
+        <label for="question">Security Question</label>
+        <select formControlName="question" required>
+          <option value="">Select a question</option>
+          <option *ngFor="let question of questionOptions" [value]="question">{{ question }}</option>
+        </select>
+
+        <label for="answer">Your Answer</label>
+        <input type="text" formControlName="answer" required />
+
+        <button type="button" (click)="removeSecurityQuestion(i)" *ngIf="securityQuestions.length > 1">Remove</button>
+      </div>
+      <button type="button" (click)="addSecurityQuestion()">Add Another Question</button>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</div>

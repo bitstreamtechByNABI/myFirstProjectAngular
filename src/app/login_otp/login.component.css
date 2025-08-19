@@ -1,0 +1,141 @@
+/* Make sure html and body stretch full height */
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.page-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Login Box Styling */
+.login-box {
+  background: #fff;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transform: rotateX(5deg) rotateY(-5deg);
+  transition: transform 0.3s ease-in-out;
+  width: 350px;
+}
+
+.login-box:hover {
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
+.login-box h2 {
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+/* Input Groups */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Groups */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-group button {
+  width: 48%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-login {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn-reset {
+  background: #ccc;
+  color: #333;
+}
+
+.btn-group button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Blur effect during loading */
+.blur {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Loading Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.overlay p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Optional fallback loader section */
+.loading-container {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.loading-container img {
+  width: 60px;
+  height: 60px;
+}

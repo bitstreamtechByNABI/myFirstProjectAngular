@@ -1,0 +1,60 @@
+<!-- Loading Overlay -->
+<div *ngIf="isLoading" class="overlay">
+  <img src="../../assets/03-19-26-213_512.gif" alt="Loading..." />
+  <p>Please wait...</p>
+</div>
+
+<!-- Login Form Wrapper -->
+<div class="page-center">
+  <div class="login-box" [class.blur]="isLoading">
+    <h2>Login</h2>
+    <form (ngSubmit)="onLogin()">
+      <!-- Email Field -->
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          required
+          autocomplete="email"
+          disabled
+        />
+      </div>
+
+      <!-- OTP Field with Show/Hide Toggle -->
+      <div class="input-group" style="position: relative;">
+        <label for="otp">OTP</label>
+        <input
+          [type]="showOtp ? 'text' : 'password'"
+          id="otp"
+          name="otp"
+          [(ngModel)]="otp"
+          placeholder="Enter OTP"
+          required
+          oncopy="return false"
+          oncut="return false"
+          oncontextmenu="return false"
+          autocomplete="off"
+        />
+
+        <!-- Toggle Eye Icon -->
+        <span
+          class="toggle-password"
+          (click)="toggleOtpVisibility()"
+          style="position: absolute; right: 10px; top: 35px; cursor: pointer; user-select: none;"
+        >
+          {{ showOtp ? '🙈' : '👁️' }}
+        </span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-group">
+        <button type="submit" class="btn-login">Login</button>
+        <button type="button" (click)="onReset()" class="btn-reset">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>

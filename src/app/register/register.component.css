@@ -1,0 +1,147 @@
+
+
+.registration-form {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 2.5rem;
+  background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  transition: 0.3s ease-in-out;
+}
+
+.registration-form:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #34495e;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd6dd;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #fdfdfd;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+fieldset {
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 16px;
+  color: #007bff;
+  padding: 0 12px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #007bff, #0056b3);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.4s ease;
+  margin-top: 25px;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(to right, #0056b3, #003f7f);
+}
+
+.registration-form {
+  animation: fadeInSlideUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.col {
+  flex: 1;
+  min-width: 250px; /* Prevents fields from becoming too narrow */
+}
+
+.address-box,
+fieldset {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  background-color: #f9f9f9;
+}
+
+form {
+  max-width: 900px; /* Prevents full-screen stretch */
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+
+.form-header{
+  background-color: black;
+  color: yellow;
+  font-weight: 5000px;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+}
+
+
+
+@keyframes fadeInSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

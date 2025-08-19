@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  height: 100vh;
+  background: linear-gradient(
+    135deg,          /* angle */
+    #FF9933 0%,      /* saffron */
+    white 50%,       /* white middle */
+    #138808 100%     /* green */
+  );
+}

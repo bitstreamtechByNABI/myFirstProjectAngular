@@ -1,0 +1,113 @@
+<h2 class="notebook-title">{{ title }}</h2>
+
+<div class="notebook">
+  <!-- Single Note View -->
+  <div class="note" [style.background]="currentNote?.color">
+    <h3>Note {{ currentIndex + 1 }}</h3>
+
+    <!-- Always show noteBookName -->
+    <p><strong>{{ currentNote?.title }}</strong></p>
+
+    <!-- Show noteBookContent only if button clicked -->
+    <p *ngIf="contentVisible">{{ currentNote?.content }}</p>
+
+    <!-- Buttons -->
+    <div class="note-actions">
+      <!-- Toggle content -->
+      <button *ngIf="!contentVisible"
+              (click)="showNoteContent()"
+              class="note-btn show-btn">
+        Show Note Content
+      </button>
+
+      <button *ngIf="contentVisible"
+              (click)="hideNoteContent()"
+              class="note-btn hide-btn">
+        Hide Note Content
+      </button>
+
+      <!-- Option 1: Email Box -->
+      <!-- <button *ngIf="!showEmailBox"
+              (click)="openEmailBox()"
+              class="note-btn share-btn">
+        📤 Send Email (Box)
+      </button> -->
+
+      <!-- Option 2: SweetAlert Email -->
+      <button (click)="openEmailPopup()" class="note-btn share-btn">
+        📧 Quick Share
+      </button>
+    </div>
+
+    <!-- Email Box -->
+    <div class="email-box" *ngIf="showEmailBox">
+      <label for="emailInput">📧 Enter Email:</label>
+      <input type="email"
+             id="emailInput"
+             [(ngModel)]="email"
+             placeholder="Enter email address"
+             class="note-input"/>
+
+      <div class="email-actions">
+        <!-- Now confirm & send -->
+        <button (click)="sendEmail()" class="note-btn email-btn">
+          Confirm & Send ✉️
+        </button>
+        <button (click)="cancelEmail()" class="note-btn cancel-btn">
+          Cancel ❌
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="controls">
+    <button (click)="prevNote()" [disabled]="currentIndex === 0">Previous</button>
+
+    <span class="page-info">
+      Page {{ currentIndex + 1 }} of {{ notes.length }}
+    </span>
+
+    <button (click)="nextNote()" [disabled]="currentIndex === notes.length - 1">Next</button>
+  </div>
+
+  <!-- Pagination Groups -->
+  <div class="pagination">
+    <button (click)="prevGroup()" [disabled]="currentGroup === 0">«</button>
+
+    <button *ngFor="let page of pagedPages()" 
+            (click)="goTo(page - 1)"
+            [class.active]="currentIndex === page - 1">
+      {{ page }}
+    </button>
+
+    <button (click)="nextGroup()" [disabled]="currentGroup >= totalGroups - 1">»</button>
+  </div>
+</div>
+
+<!-- Jump to page -->
+<div class="jump-controls">
+  <label for="pageInput">Go to page:</label>
+  <input type="number"
+         id="pageInput"
+         #pageInput
+         min="1"
+         [max]="notes.length"
+         (keyup.enter)="goToPageNumber(pageInput.value)">
+
+  <button (click)="goToPageNumber(pageInput.value)" class="note-btn go-btn">
+    Go 🔍
+  </button>
+
+  <!-- Error message -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>
+
+<!-- Go to Dashboard -->
+<div class="dashboard-link">
+  <button routerLink="/dashboard" class="note-btn dashboard-btn">
+    Go to Dashboard
+  </button>
+</div>

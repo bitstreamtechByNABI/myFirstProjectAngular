@@ -1,0 +1,57 @@
+<!-- Main Dashboard Layout -->
+<div class="dashboard-layout">
+
+  <!-- 📇 Left Panel Menu -->
+  <div class="left-panel">
+
+    <!-- 📒 Contact Menu -->
+    <div 
+      class="menu-item" 
+      (click)="toggleContactMenu()" 
+      [attr.aria-expanded]="isContactMenuOpen">
+      📒 Contact
+      <span class="arrow">{{ isContactMenuOpen ? '▲' : '▼' }}</span>
+    </div>
+
+    <div class="sub-menu" *ngIf="isContactMenuOpen">
+      <button class="sub-menu-btn" (click)="onNewContactClick()">
+        📇 Add New Contact
+      </button>
+      <button class="sub-menu-btn" (click)="onViewContactClick()">
+        📕 Show Contact
+      </button>
+    </div>
+
+    <!-- 📓 Notebook Menu -->
+    <div 
+      class="menu-item" 
+      (click)="toggleNotebookMenu()" 
+      [attr.aria-expanded]="isNotebookMenuOpen">
+      📓 Notebook
+      <span class="arrow">{{ isNotebookMenuOpen ? '▲' : '▼' }}</span>
+    </div>
+
+    <div class="sub-menu" *ngIf="isNotebookMenuOpen">
+      <button class="sub-menu-btn" (click)="onNewNoteClick()">
+        📝 Add New Note
+      </button>
+      <button class="sub-menu-btn" (click)="onViewNotesClick()">
+        📄 View Notes
+      </button>
+    </div>
+
+  </div>
+
+  <!-- 🧾 Right Panel: Dashboard Box -->
+  <div class="dashboard-box">
+    <div class="info-card">
+      <span class="icon-box">Welcome Your User ID : </span>
+      <span class="info-text">{{ userId }}</span>
+    </div>
+    <div class="info-card">
+      <span class="icon-box">👤</span>
+      <span class="info-text">{{ message }}</span>
+    </div>
+  </div>
+
+</div>

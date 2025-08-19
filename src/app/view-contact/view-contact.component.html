@@ -1,0 +1,76 @@
+<div class="container">
+  <!-- 🔙 Navigation Buttons -->
+  <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px;">
+    <button routerLink="/dashboard" class="nav-button">🏠 Dashboard</button>
+    <button routerLink="/add-contact" class="nav-button">➕ Add New Contact</button>
+    <button routerLink="/login" class="nav-button">🚪 Logout</button>
+  </div>
+
+  <!-- 🔍 Filter Inputs -->
+  <div class="filter-container" style="margin-bottom: 15px; text-align: center;">
+    <input
+      type="text"
+      placeholder="🔎 Search by name"
+      [(ngModel)]="nameFilter"
+      (input)="filterOnlyLetters($event)"
+      (keypress)="blockNonAlphabet($event)"
+      class="filter-input"
+    />
+
+    <input
+      type="text"
+      placeholder="📞 Search by phone"
+      [(ngModel)]="phoneFilter"
+      (input)="filterOnlyNumbers($event)"
+      (keypress)="blockNonNumeric($event)"
+      class="filter-input"
+    />
+  </div>
+
+  <!-- ✅ Contact Table -->
+  <div *ngIf="contactData?.contactList?.length > 0; else noContacts">
+    <div class="table-box">
+      <table class="contact-table">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contactData.contactList; let i = index">
+            <td data-label="S.No.">{{ i + 1 }}</td>
+
+            <!-- Profile Image with Circle & Hover Zoom -->
+            <td data-label="Image">
+              <div class="image-zoom-container">
+                <img
+                  [src]="getImageSrc(contact.image)"
+                  alt="Image"
+                  class="zoom-image"
+                />
+              </div>
+            </td>
+
+            <td data-label="Name">{{ contact.firstName }} {{ contact.lastName }}</td>
+            <td data-label="Email">{{ contact.email }}</td>
+            <td data-label="Phone Number">{{ contact.phoneNumber }}</td>
+            <td data-label="Actions">
+              <button class="circle-button edit-btn" (click)="editContact(contact)">✏️</button>
+              <button class="circle-button delete-btn" (click)="deleteContact(contact)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 🚫 No Contacts Message -->
+  <ng-template #noContacts>
+    <p style="text-align: center; color: gray; font-style: italic;">No contacts available.</p>
+  </ng-template>
+</div>

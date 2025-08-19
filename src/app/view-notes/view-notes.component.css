@@ -1,0 +1,197 @@
+/* Notebook Container */
+.notebook {
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  max-width: 650px;
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Title */
+.notebook-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+/* Note card */
+.note {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+
+.note:hover {
+  transform: scale(1.02);
+}
+
+/* Note Actions (buttons row) */
+.note-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* Buttons */
+.note-btn {
+  padding: 8px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* Show Button */
+.show-btn {
+  background-color: #1976d2;
+  color: white;
+}
+
+.show-btn:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+}
+
+/* Hide Button */
+.hide-btn {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.hide-btn:hover {
+  background-color: #b71c1c;
+  transform: translateY(-2px);
+}
+
+/* Share Button */
+.share-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.share-btn:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+}
+
+/* Navigation Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.controls button {
+  padding: 8px 15px;
+  font-size: 14px;
+  border: none;
+  background-color: #138808;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.controls button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.controls button:hover:not(:disabled) {
+  background-color: #0f6b06;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 2px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.pagination button.active {
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #1565c0;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Jump Controls */
+.jump-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.jump-controls input {
+  width: 60px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.go-btn {
+  background-color: #1976d2;
+  color: white;
+}
+
+.go-btn:hover {
+  background-color: #0d47a1;
+  transform: scale(1.05);
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+/* Dashboard Button */
+.dashboard-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.dashboard-btn {
+  background-color: #ff9800;
+  color: white;
+  padding: 10px 18px;
+}
+
+.dashboard-btn:hover {
+  background-color: #e68900;
+  transform: scale(1.05);
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

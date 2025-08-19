@@ -1,0 +1,60 @@
+<div class="date-time-container">
+  <div class="left-side">
+    <p><strong>User ID:</strong> {{ userId }}</p>
+    <button type="button" class="toggle-btn" (click)="toggleNotes()">
+      {{ showNotes ? 'Hide Notes' : 'Add New Notes' }}
+    </button>
+  </div>
+
+  <div class="right-side">
+    <p><strong>Date & Time:</strong> {{ currentDateTime }}</p>
+    <p><strong>Day:</strong> {{ currentDayName }}</p>
+  </div>
+
+  <!-- Centered textbox with Save and Reset buttons -->
+  <div class="center-textbox" *ngIf="showNotes">
+
+    <!-- Title / Name input -->
+    <input
+      type="text"
+      placeholder="Enter title or name..."
+      [(ngModel)]="noteTitle"
+      maxlength="100"
+      class="note-input"
+    />
+
+    <!-- Notes textarea -->
+    <textarea
+      rows="5"
+      cols="40"
+      placeholder="Write your notes here..."
+      [(ngModel)]="notes"
+      maxlength="5000"
+      class="note-input"
+    ></textarea>
+
+    <!-- Character counter -->
+    <div class="char-counter">
+      {{ notes.length || 0 }} / 5000 characters
+    </div>
+
+    <!-- Inline error message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="save-btn" (click)="saveNotes()">Save</button>
+      <button type="button" class="reset-btn" (click)="resetNotes()">Reset</button>
+    </div>
+  </div>
+
+  <div style="clear: both;"></div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button routerLink="/dashboard"
+          style="padding: 8px 15px; border-radius: 6px; border: none; background-color: #ff9800; color: white; cursor: pointer;">
+    Go to Dashboard
+  </button>
+</div>

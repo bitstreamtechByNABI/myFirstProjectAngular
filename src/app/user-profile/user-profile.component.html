@@ -1,0 +1,73 @@
+<!-- Center Container -->
+<div class="login-page">
+  <!-- Centered Content (Image + Form) -->
+  <div class="login-content">
+
+    <!-- Logo + Title -->
+    <div class="site-title">
+      <!-- <img src="../../assets/image.png" alt="PhoneBook Logo" class="login-logo" /> -->
+      <h1> 📘 PhoneBook</h1>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div *ngIf="isLoading" class="overlay">
+      <img src="../../assets/03-19-26-213_512.gif" alt="Loading..." />
+      <p>please wait...</p>
+    </div>
+
+    <!-- Login Form Container -->
+    <div class="login-container" [class.blur]="isLoading">
+      <h2 class="Login">Login</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            placeholder="Enter your username"
+            required
+            [disabled]="isLoading" />
+        </div>
+
+        <!-- Password Field with Toggle -->
+        <div class="form-group password-group">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              required
+              [disabled]="isLoading"
+              oncopy="return false"
+              onpaste="return false"
+              oncut="return false"
+              ondragstart="return false"
+              ondrop="return false"
+              oncontextmenu="return false"
+              title="Copy & Paste disabled for security" />
+            <button
+              type="button"
+              class="toggle-btn"
+              (click)="togglePasswordVisibility()"
+              [disabled]="isLoading">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="isLoading">Login</button>
+      </form>
+
+      <!-- Register Link -->
+      <div class="extra-link">
+        <p>Don't have an account? <a href="/register">Register</a></p>
+      </div>
+    </div>
+  </div>
+</div>
