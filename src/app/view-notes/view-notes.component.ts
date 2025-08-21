@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ApiService } from '../api.service';
+import { finalize } from 'rxjs/operators'; 
 
 // Note interface
 interface Note {
@@ -34,6 +35,9 @@ export class ViewNotesComponent implements OnInit {
   // Email Box
   email: string = '';
   showEmailBox: boolean = false;
+
+  // ✅ Added loading flag
+  isSending: boolean = false;
 
   constructor(private apiService: ApiService) {}
 
@@ -70,12 +74,10 @@ export class ViewNotesComponent implements OnInit {
     });
   }
 
-  // ✅ Current Note Getter
   get currentNote() {
     return this.notes[this.currentIndex] || null;
   }
 
-  // ✅ Total Groups for Pagination
   get totalGroups() {
     return Math.ceil(this.notes.length / this.pageSize);
   }
@@ -86,7 +88,6 @@ export class ViewNotesComponent implements OnInit {
       .filter(page => page <= this.notes.length);
   }
 
-  // ✅ Navigation Controls
   nextGroup() {
     if (this.currentGroup < this.totalGroups - 1) {
       this.currentGroup++;
@@ -131,7 +132,6 @@ export class ViewNotesComponent implements OnInit {
     this.showAll = !this.showAll;
   }
 
-  // ✅ Random Pastel Color Generator
   private generateRandomColor() {
     const colors = [
       '#FFEBEE', '#E8F5E9', '#E3F2FD',
@@ -140,7 +140,6 @@ export class ViewNotesComponent implements OnInit {
     return colors[Math.floor(Math.random() * colors.length)];
   }
 
-  // ✅ Show / Hide Note Content
   showNoteContent() {
     if (!this.currentNote) return;
     localStorage.setItem('NoteId', this.currentNote.title);
@@ -151,7 +150,6 @@ export class ViewNotesComponent implements OnInit {
     this.contentVisible = false;
   }
 
-  // ✅ Go to Specific Page
   goToPageNumber(page: any) {
     const parsed = Math.floor(Number(page));
     const totalPages = this.notes.length;
@@ -170,12 +168,6 @@ export class ViewNotesComponent implements OnInit {
     this.goTo(parsed - 1);
   }
 
-  // ✅ Open Email Box
-  openEmailBox() {
-    this.showEmailBox = true;
-  }
-
-  // ✅ Open Quick Share Popup
   openEmailPopup() {
     Swal.fire({
       title: 'Quick Share',
@@ -198,7 +190,7 @@ export class ViewNotesComponent implements OnInit {
     });
   }
 
-  // ✅ Send Email with Note
+  // ✅ Send Email via API with loader
   sendEmail() {
     if (!this.email) {
       Swal.fire('Error', 'Please enter an email address.', 'warning');
@@ -208,14 +200,49 @@ export class ViewNotesComponent implements OnInit {
     const subject = this.currentNote?.title || "No Title";
     const body = this.currentNote?.content || "No Content";
 
-    const mailtoLink = `mailto:${this.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
+    const data = {
+      to: this.email,
+      subject: subject,
+      body: body
+    };
 
-    this.showEmailBox = false;
-    this.email = '';
+    this.isSending = true; // start loader
+
+    Swal.fire({
+      title: 'Sending...',
+      text: 'Please wait while your email is being sent.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading(); // 🔹 SweetAlert built-in loader
+      }
+    });
+
+    this.apiService.sendNotes(data)
+      .pipe(finalize(() => this.isSending = false))
+      .subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Email Sent!',
+            text: 'Your note was sent successfully 🎉',
+            timer: 2000,
+            showConfirmButton: false
+          });
+          this.showEmailBox = false;
+          this.email = '';
+        },
+        error: (err) => {
+          console.error("Error sending email:", err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Could not send email. Try again later.',
+            showConfirmButton: true
+          });
+        }
+      });
   }
 
-  // ✅ Cancel Email
   cancelEmail() {
     this.showEmailBox = false;
     this.email = '';

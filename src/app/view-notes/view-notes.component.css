@@ -190,6 +190,14 @@
   transform: scale(1.05);
 }
 
+.send-gif {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+
 /* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }

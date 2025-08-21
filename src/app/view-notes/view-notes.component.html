@@ -26,14 +26,7 @@
         Hide Note Content
       </button>
 
-      <!-- Option 1: Email Box -->
-      <!-- <button *ngIf="!showEmailBox"
-              (click)="openEmailBox()"
-              class="note-btn share-btn">
-        📤 Send Email (Box)
-      </button> -->
-
-      <!-- Option 2: SweetAlert Email -->
+      <!-- Quick Share Button -->
       <button (click)="openEmailPopup()" class="note-btn share-btn">
         📧 Quick Share
       </button>
@@ -49,11 +42,19 @@
              class="note-input"/>
 
       <div class="email-actions">
-        <!-- Now confirm & send -->
-        <button (click)="sendEmail()" class="note-btn email-btn">
-          Confirm & Send ✉️
+        <!-- Confirm & Send with GIF animation -->
+        <button (click)="sendEmail()" class="note-btn email-btn" [disabled]="isSending">
+          <ng-container *ngIf="isSending; else sendText">
+            <img src="/src/assets/letter.gif" alt="Sending..." class="send-gif">
+            Sending...
+          </ng-container>
+          <ng-template #sendText>
+            Confirm & Send ✉️
+          </ng-template>
         </button>
-        <button (click)="cancelEmail()" class="note-btn cancel-btn">
+
+        <!-- Cancel Button -->
+        <button (click)="cancelEmail()" class="note-btn cancel-btn" [disabled]="isSending">
           Cancel ❌
         </button>
       </div>
