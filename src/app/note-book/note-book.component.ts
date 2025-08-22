@@ -18,14 +18,20 @@ export class NoteBookComponent implements OnInit {
 
   noteTitle: string = '';   // Title input
   notes: string = '';       // Notes content
-  errorMessage: string = ''; 
-  successMessage: string = ''; 
+  errorMessage: string = '';
+  successMessage: string = '';
 
-  constructor(private apiService: ApiService) {}  // Inject ApiService
+  // 🔹 File attachment
+  attachedFile: File | null = null;
+  attachedFileName: string | null = null;
+  attachedFileType: string | null = null;
+  attachedFileBase64: string | null = null;
+
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
-    this.message = localStorage.getItem('message');  
+    this.message = localStorage.getItem('message');
 
     this.updateDateTime();
     setInterval(() => {
@@ -45,60 +51,80 @@ export class NoteBookComponent implements OnInit {
     this.successMessage = '';
   }
 
+  // 🔹 Handle file selection and convert to Base64
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.attachedFile = file;
+      this.attachedFileName = file.name;
+      this.attachedFileType = file.type;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+        this.attachedFileBase64 = base64String;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // 🔹 Remove attached file
+  resetFile(): void {
+    this.attachedFile = null;
+    this.attachedFileName = null;
+    this.attachedFileType = null;
+    this.attachedFileBase64 = null;
+
+    // also reset the <input type="file">
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
   saveNotes(): void {
     this.errorMessage = '';
     this.successMessage = '';
 
     if (!this.noteTitle.trim()) {
       this.errorMessage = 'Please enter a title.';
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: this.errorMessage,
-      });
+      Swal.fire({ icon: 'error', title: 'Oops...', text: this.errorMessage });
       return;
     }
 
     if (!this.notes.trim()) {
       this.errorMessage = 'Please write some notes before saving.';
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: this.errorMessage,
-      });
+      Swal.fire({ icon: 'error', title: 'Oops...', text: this.errorMessage });
       return;
     }
 
     if (!this.userId) {
       this.errorMessage = 'User ID is missing. Please login again.';
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: this.errorMessage,
-      });
+      Swal.fire({ icon: 'error', title: 'Error', text: this.errorMessage });
       return;
     }
 
-    // Compose data to send to API
+    // 🔹 Prepare JSON body including Base64 file
     const data = {
       userId: this.userId,
-      noteStatus: "ACTIVE",           // Hardcoded as requested
+      noteStatus: 'ACTIVE',
       noteBookName: this.noteTitle,
-      noteBookContent: this.notes
+      noteBookContent: this.notes,
+      attachmentBase64: this.attachedFileBase64,
+      attachmentFileName: this.attachedFileName,
+      attachmentFileType: this.attachedFileType
     };
 
-    // Call ApiService to save note
     this.apiService.AddNewNotes(data).subscribe({
       next: (response) => {
         console.log('Note saved successfully:', response);
 
-        // Save locally as well
+        // Save locally
         localStorage.setItem('userNoteTitle', this.noteTitle);
         localStorage.setItem('userNotes', this.notes);
 
         // Clear inputs
-        this.noteTitle = '';
-        this.notes = '';
+        this.resetNotes();
 
         this.successMessage = 'Notes saved successfully!';
         Swal.fire({
@@ -112,11 +138,7 @@ export class NoteBookComponent implements OnInit {
       error: (error) => {
         console.error('Error saving note:', error);
         this.errorMessage = 'Failed to save note. Please try again later.';
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: this.errorMessage,
-        });
+        Swal.fire({ icon: 'error', title: 'Error', text: this.errorMessage });
       }
     });
   }
@@ -124,7 +146,17 @@ export class NoteBookComponent implements OnInit {
   resetNotes(): void {
     this.noteTitle = '';
     this.notes = '';
+    this.attachedFile = null;
+    this.attachedFileName = null;
+    this.attachedFileType = null;
+    this.attachedFileBase64 = null;
     this.errorMessage = '';
     this.successMessage = '';
+
+    // also clear file input element
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 }

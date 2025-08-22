@@ -20,8 +20,7 @@
       placeholder="Enter title or name..."
       [(ngModel)]="noteTitle"
       maxlength="100"
-      class="note-input"
-    />
+      class="note-input" />
 
     <!-- Notes textarea -->
     <textarea
@@ -30,12 +29,35 @@
       placeholder="Write your notes here..."
       [(ngModel)]="notes"
       maxlength="5000"
-      class="note-input"
-    ></textarea>
+      class="note-input"></textarea>
 
     <!-- Character counter -->
     <div class="char-counter">
       {{ notes.length || 0 }} / 5000 characters
+    </div>
+
+    <!-- File attachment -->
+    <div class="file-upload">
+      <label><strong>Attach File:</strong></label>
+
+      <!-- Hidden input -->
+      <input
+        type="file"
+        id="fileInput"
+        (change)="onFileSelected($event)"
+        hidden />
+      <!-- Custom button -->
+      <label for="fileInput" class="custom-file-btn">📂 Choose File</label>
+
+      <!-- Show selected file -->
+      <div *ngIf="attachedFileName" class="file-preview">
+        📎
+        <span class="file-name" [title]="attachedFileName">
+          {{ attachedFileName }}
+        </span>
+        <button type="button" class="remove-file-btn"
+          (click)="resetFile()">✖</button>
+      </div>
     </div>
 
     <!-- Inline error message -->
@@ -45,7 +67,8 @@
 
     <div class="btn-group">
       <button type="button" class="save-btn" (click)="saveNotes()">Save</button>
-      <button type="button" class="reset-btn" (click)="resetNotes()">Reset</button>
+      <button type="button" class="reset-btn"
+        (click)="resetNotes()">Reset</button>
     </div>
   </div>
 
@@ -54,7 +77,7 @@
 
 <div style="text-align: center; margin-top: 20px;">
   <button routerLink="/dashboard"
-          style="padding: 8px 15px; border-radius: 6px; border: none; background-color: #ff9800; color: white; cursor: pointer;">
+    style="padding: 8px 15px; border-radius: 6px; border: none; background-color: #ff9800; color: white; cursor: pointer;">
     Go to Dashboard
   </button>
 </div>
