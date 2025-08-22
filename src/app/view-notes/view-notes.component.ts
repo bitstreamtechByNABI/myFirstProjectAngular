@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ApiService } from '../api.service';
-import { finalize } from 'rxjs/operators'; 
+import { finalize } from 'rxjs/operators';
 
-// Note interface
+// Updated Note interface including attachments
 interface Note {
   userId: string;
   noteStatus: string;
   noteBookName: string;
   noteBookContent: string;
+  attachment?: string;       // Base64 string
+  attachmentName?: string;
+  attachmentType?: string;
 }
 
 @Component({
@@ -36,7 +39,7 @@ export class ViewNotesComponent implements OnInit {
   email: string = '';
   showEmailBox: boolean = false;
 
-  // ✅ Added loading flag
+  // Loading flag
   isSending: boolean = false;
 
   constructor(private apiService: ApiService) {}
@@ -46,7 +49,7 @@ export class ViewNotesComponent implements OnInit {
     this.loadNotes(userId);
   }
 
-  // ✅ Load Notes from API
+  // Load notes from API
   loadNotes(userId: string) {
     this.apiService.ViewNotes(userId).subscribe({
       next: (response: any) => {
@@ -57,10 +60,14 @@ export class ViewNotesComponent implements OnInit {
           return;
         }
 
+        // Map response to notes array including attachments
         this.notes = (response.content as Note[]).map((note: Note) => ({
           content: note.noteBookContent,
           title: note.noteBookName,
-          color: this.generateRandomColor()
+          color: this.generateRandomColor(),
+          attachment: note.attachment,
+          attachmentName: note.attachmentName,
+          attachmentType: note.attachmentType
         }));
 
         this.currentIndex = 0;
@@ -190,7 +197,7 @@ export class ViewNotesComponent implements OnInit {
     });
   }
 
-  // ✅ Send Email via API with loader
+  // ✅ Updated sendEmail method to include attachment
   sendEmail() {
     if (!this.email) {
       Swal.fire('Error', 'Please enter an email address.', 'warning');
@@ -200,24 +207,36 @@ export class ViewNotesComponent implements OnInit {
     const subject = this.currentNote?.title || "No Title";
     const body = this.currentNote?.content || "No Content";
 
-    const data = {
-      to: this.email,
-      subject: subject,
-      body: body
-    };
+    // Prepare FormData for multipart/form-data
+    const formData = new FormData();
+    formData.append('to', this.email);
+    formData.append('subject', subject);
+    formData.append('body', body);
 
-    this.isSending = true; // start loader
+    // Attach current note attachment if available
+    if (this.currentNote?.attachment && this.currentNote.attachmentName) {
+      const byteCharacters = atob(this.currentNote.attachment);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: this.currentNote.attachmentType || 'application/octet-stream' });
+      formData.append('attachment', blob, this.currentNote.attachmentName);
+    }
+
+    this.isSending = true;
 
     Swal.fire({
       title: 'Sending...',
       text: 'Please wait while your email is being sent.',
       allowOutsideClick: false,
       didOpen: () => {
-        Swal.showLoading(); // 🔹 SweetAlert built-in loader
+        Swal.showLoading();
       }
     });
 
-    this.apiService.sendNotes(data)
+    this.apiService.sendNotes(formData)
       .pipe(finalize(() => this.isSending = false))
       .subscribe({
         next: () => {
@@ -246,5 +265,30 @@ export class ViewNotesComponent implements OnInit {
   cancelEmail() {
     this.showEmailBox = false;
     this.email = '';
+  }
+
+  // ✅ New method to download attachments
+  downloadAttachment() {
+    if (!this.currentNote?.attachment || !this.currentNote.attachmentName) return;
+
+    const link = document.createElement('a');
+    link.href = 'data:' + (this.currentNote.attachmentType || 'application/octet-stream') + ';base64,' + this.currentNote.attachment;
+    link.download = this.currentNote.attachmentName;
+    link.click();
+  }
+
+  // ✅ Optional: Upload new attachment for email
+  onAttachmentChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = (reader.result as string).split(',')[1];
+        this.currentNote.attachment = base64;
+        this.currentNote.attachmentName = file.name;
+        this.currentNote.attachmentType = file.type;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

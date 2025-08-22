@@ -53,8 +53,8 @@ ViewNotes(userId: string): Observable<any> {
   return this.https.get(url);
 }
 
- sendNotes(data: any): Observable<any> {
-  const url = `${this.baseUrl2}contactManagementSystem/api/email/send`;
+sendNotes(data: any): Observable<any> {
+  const url = `${this.baseUrl2}contactManagementSystem/api/email/sendWithAttachment`;
   return this.https.post(url, data);
 }
 

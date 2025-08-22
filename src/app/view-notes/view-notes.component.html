@@ -11,6 +11,13 @@
     <!-- Show noteBookContent only if button clicked -->
     <p *ngIf="contentVisible">{{ currentNote?.content }}</p>
 
+    <!-- Attachment Download -->
+    <div *ngIf="currentNote?.attachment && currentNote?.attachmentName" class="attachment">
+      <button (click)="downloadAttachment()" class="note-btn download-btn">
+        📎 Download {{ currentNote.attachmentName }}
+      </button>
+    </div>
+
     <!-- Buttons -->
     <div class="note-actions">
       <!-- Toggle content -->
@@ -42,7 +49,6 @@
              class="note-input"/>
 
       <div class="email-actions">
-        <!-- Confirm & Send with GIF animation -->
         <button (click)="sendEmail()" class="note-btn email-btn" [disabled]="isSending">
           <ng-container *ngIf="isSending; else sendText">
             <img src="/src/assets/letter.gif" alt="Sending..." class="send-gif">
@@ -53,8 +59,6 @@
           </ng-template>
         </button>
 
-        
-        <!-- Cancel Button -->
         <button (click)="cancelEmail()" class="note-btn cancel-btn" [disabled]="isSending">
           Cancel ❌
         </button>

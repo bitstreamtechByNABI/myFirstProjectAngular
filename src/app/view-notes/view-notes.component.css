@@ -197,6 +197,27 @@
   margin-right: 6px;
 }
 
+/* Attachment Download Button */
+.attachment {
+  margin-top: 12px;
+}
+
+.download-btn {
+  background-color: #ff9800; /* Orange */
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.download-btn:hover {
+  background-color: #e68900; /* Darker orange */
+  transform: translateY(-2px);
+}
+
 
 /* Fade animation */
 @keyframes fadeIn {
